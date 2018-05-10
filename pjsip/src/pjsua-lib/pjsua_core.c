@@ -3456,10 +3456,13 @@ static pj_status_t handle_ip_change_on_acc()
 	    }
 	} else {
 	    acc_done[i] = PJ_TRUE;
-	    if (acc->cfg.allow_contact_rewrite) {
-		status = pjsua_acc_update_contact_on_ip_change(acc);
-	    } else {
-		status = pjsua_acc_handle_call_on_ip_change(acc);
+
+        PJ_LOG(3, (THIS_FILE, "No Shutdown,handle registration directly"));
+        status = pjsua_acc_update_contact_on_ip_change(acc);
+	    //if (acc->cfg.allow_contact_rewrite) {
+		//status = pjsua_acc_update_contact_on_ip_change(acc);
+	    //} else {
+		//status = pjsua_acc_handle_call_on_ip_change(acc);
 	    }
 	}
     }

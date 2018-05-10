@@ -3835,11 +3835,13 @@ void pjsua_acc_on_tp_state_changed(pjsip_transport *tp,
 	    if (pjsua_var.acc[i].ip_change_op == 
 					    PJSUA_IP_CHANGE_OP_ACC_SHUTDOWN_TP)
 	    {
-		if (acc->cfg.allow_contact_rewrite) {
-		    pjsua_acc_update_contact_on_ip_change(acc);
-		} else {
-		    pjsua_acc_handle_call_on_ip_change(acc);
-		}
+	    	PJ_LOG(3, (THIS_FILE, "Transport Shutwon,handle registration"));
+        	status = pjsua_acc_update_contact_on_ip_change(acc);
+		//if (acc->cfg.allow_contact_rewrite) {
+		//    pjsua_acc_update_contact_on_ip_change(acc);
+		//} else {
+		//    pjsua_acc_handle_call_on_ip_change(acc);
+		//}
 	    } else if (acc->cfg.reg_retry_interval) {
 		/* Schedule reregistration for this account */
 	        schedule_reregistration(acc);
