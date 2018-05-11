@@ -34,7 +34,7 @@
  
 /* L16 codec */
 #ifndef PJMEDIA_HAS_L16_CODEC
-/* #undef PJMEDIA_HAS_L16_CODEC */
+#define PJMEDIA_HAS_L16_CODEC 0
 #endif
 
 

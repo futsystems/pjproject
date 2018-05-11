@@ -3463,7 +3463,7 @@ static pj_status_t handle_ip_change_on_acc()
 		//status = pjsua_acc_update_contact_on_ip_change(acc);
 	    //} else {
 		//status = pjsua_acc_handle_call_on_ip_change(acc);
-	    }
+	    //}
 	}
     }
     return status;
@@ -3571,6 +3571,7 @@ PJ_DEF(pj_status_t) pjsua_handle_ip_change(const pjsua_ip_change_param *param)
 	/* Restart listener/transport, handle_ip_change_on_acc() will
 	 * be called after listener restart is completed successfully.
 	 */
+    PJ_LOG(3, (THIS_FILE, "Restart listener"));
 	for (i = 0; i < PJ_ARRAY_SIZE(pjsua_var.tpdata); ++i) {
 	    if (pjsua_var.tpdata[i].data.ptr != NULL) {
 		pjsua_var.tpdata[i].is_restarting = PJ_TRUE;

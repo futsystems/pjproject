@@ -3836,7 +3836,7 @@ void pjsua_acc_on_tp_state_changed(pjsip_transport *tp,
 					    PJSUA_IP_CHANGE_OP_ACC_SHUTDOWN_TP)
 	    {
 	    	PJ_LOG(3, (THIS_FILE, "Transport Shutwon,handle registration"));
-        	status = pjsua_acc_update_contact_on_ip_change(acc);
+        	pjsua_acc_update_contact_on_ip_change(acc);
 		//if (acc->cfg.allow_contact_rewrite) {
 		//    pjsua_acc_update_contact_on_ip_change(acc);
 		//} else {
