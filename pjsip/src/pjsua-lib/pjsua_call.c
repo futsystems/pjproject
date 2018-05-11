@@ -1246,7 +1246,7 @@ pj_bool_t pjsua_call_on_incoming(pjsip_rx_data *rdata)
 	/* Clone rdata. */
 	pjsip_rx_data_clone(rdata, 0, &call->incoming_data);
     }
-
+    PJ_LOG(5,(THIS_FILE, "Get account for incoming call"));
     /*
      * Get which account is most likely to be associated with this incoming
      * call. We need the account to find which contact URI to put for
@@ -1262,7 +1262,7 @@ pj_bool_t pjsua_call_on_incoming(pjsip_rx_data *rdata)
 	call->secure_level = 1;
     else
 	call->secure_level = 0;
-
+    PJ_LOG(5,(THIS_FILE, "Parse SDP for incoming call"));
     /* Parse SDP from incoming request */
     if (rdata->msg_info.msg->body) {
 	pjsip_rdata_sdp_info *sdp_info;
@@ -1335,7 +1335,7 @@ pj_bool_t pjsua_call_on_incoming(pjsip_rx_data *rdata)
     } else {
 	offer = NULL;
     }
-
+    PJ_LOG(5,(THIS_FILE, "Verify handle reqeust for incoming call"));
     /* Verify that we can handle the request. */
     options |= PJSIP_INV_SUPPORT_100REL;
     options |= PJSIP_INV_SUPPORT_TIMER;
@@ -1385,7 +1385,7 @@ pj_bool_t pjsua_call_on_incoming(pjsip_rx_data *rdata)
 	    goto on_return;
 	}
     }
-
+    PJ_LOG(5,(THIS_FILE, "Create dialog for incoming call"));
     /* Create dialog: */
     status = pjsip_dlg_create_uas_and_inc_lock( pjsip_ua_instance(), rdata,
 				   		&contact, &dlg);
@@ -1456,7 +1456,7 @@ pj_bool_t pjsua_call_on_incoming(pjsip_rx_data *rdata)
 	if (cap_status == PJSIP_DIALOG_CAP_SUPPORTED)
 	    options |= PJSIP_INV_REQUIRE_100REL;
     }
-
+    PJ_LOG(5,(THIS_FILE, "Create invite session for incoming call"));
     /* Create invite session: */
     status = pjsip_inv_create_uas( dlg, rdata, NULL, options, &inv);
     if (status != PJ_SUCCESS) {
@@ -1476,7 +1476,7 @@ pj_bool_t pjsua_call_on_incoming(pjsip_rx_data *rdata)
 	 */
 	goto on_return;
     }
-
+    PJ_LOG(5,(THIS_FILE, "Check transport to lock for incoming call"));
     /* If account is locked to specific transport, then lock dialog
      * to this transport too.
      */
@@ -1497,7 +1497,7 @@ pj_bool_t pjsua_call_on_incoming(pjsip_rx_data *rdata)
     pj_list_init(&call->async_call.call_var.inc_call.answers);
 
     pjsip_dlg_inc_session(dlg, &pjsua_var.mod);
-
+    PJ_LOG(5,(THIS_FILE, "Init medial channel for incoming call"));
     /* Init media channel, only when there is offer or call replace request.
      * For incoming call without SDP offer, media channel init will be done
      * in pjsua_call_answer(), see ticket #1526.
@@ -1573,7 +1573,7 @@ pj_bool_t pjsua_call_on_incoming(pjsip_rx_data *rdata)
 
 	goto on_return;
     }
-
+    PJ_LOG(5,(THIS_FILE, "Update NAT type for remote endpoint for incoming call"));
     /* Update NAT type of remote endpoint, only when there is SDP in
      * incoming INVITE!
      */
@@ -1585,7 +1585,7 @@ pj_bool_t pjsua_call_on_incoming(pjsip_rx_data *rdata)
 	if (pjmedia_sdp_neg_get_neg_remote(inv->neg, &remote_sdp)==PJ_SUCCESS)
 	    update_remote_nat_type(call, remote_sdp);
     }
-
+    PJ_LOG(4,(THIS_FILE, "Initial answer for incoming call"));
     /* Must answer with some response to initial INVITE. We'll do this before
      * attaching the call to the invite session/dialog, so that the application
      * will not get notification about this event (on another scenario, it is
